@@ -98,6 +98,24 @@ async function drawTodoList() {
       drawTodoList()
     })
 
+    // 체크박스 추가하고 이벤트 리스너 등록
+    const doneCheckEl = fragment.querySelector('.done-check')
+    doneCheckEl.addEventListener('click', async e => {
+      if(e.target.getAttribute('checked') === 'checked') {
+        e.target.removeAttribute('checked')
+        const res = await api.patch(`/todos/${todoItem.id}`, {
+          complete: false
+        })
+        console.log(res.data)
+      } else {
+        e.target.setAttribute('checked', 'checked')
+        const res = await api.patch(`/todos/${todoItem.id}`, {
+          complete: true
+        })
+        console.log(res.data)
+      }
+    })
+
     // 3. 문서 내부에 삽입하기
     todoListEl.appendChild(fragment)
   })
