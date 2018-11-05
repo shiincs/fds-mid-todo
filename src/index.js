@@ -49,9 +49,9 @@ function drawLoginForm() {
       password: password
     })
     localStorage.setItem('token', res.data.token)
-    // 임시 테스트 코드
-    const res2 = await api.get('/todos')
-    alert(JSON.stringify(res2.data))
+
+    // 로그인 후 할일 목록을 표시해 준다.
+    drawTodoList()
   })
 
   // 3. 문서 내부에 삽입하기
@@ -59,20 +59,9 @@ function drawLoginForm() {
 }
 
 async function drawTodoList() {
-  const list = [
-    {
-      id: 1,
-      userId: 2,
-      body: 'React 공부',
-      complete: false
-    },
-    {
-      id: 2,
-      userId: 2,
-      body: 'React Router 공부',
-      complete: false
-    }
-  ]
+  // 할 일 목록을 받아와서 저장한다.
+  const res = await api.get('/todos')
+  const list = res.data
 
   // 1. 템플릿 복사하기
   const fragment = document.importNode(templates.todoList, true)
@@ -91,8 +80,10 @@ async function drawTodoList() {
   })
 
   // 3. 문서 내부에 삽입하기
+  // 먼저 비우고 새로 삽입한다.
+  rootEl.textContent = ''
   rootEl.appendChild(fragment)
 }
 
-// drawLoginForm()
-drawTodoList()
+drawLoginForm()
+// drawTodoList()
