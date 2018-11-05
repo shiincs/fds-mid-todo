@@ -67,6 +67,20 @@ async function drawTodoList() {
   const fragment = document.importNode(templates.todoList, true)
   // 2. 내용 채우고 이벤트 리스너 등록하기
   const todoListEl = fragment.querySelector('.todo-list')
+  const todoFormEl = fragment.querySelector('.todo-form')
+
+  // 폼에 할일 입력하고 전송 했을 때의 이벤트 리스너
+  todoFormEl.addEventListener('submit', async e => {
+    e.preventDefault()
+    const body = e.target.elements.body.value
+    const res = await api.post('/todos', {
+      body: body,
+      complete: false
+    })
+    if(res.status === 201) {
+      drawTodoList()
+    }
+  })
 
   // 배열에 들어있는 데이터를 todoItem fragment에 넣어주기 위해 forEach문을 돌려준다.
   list.forEach(todoItem => {
