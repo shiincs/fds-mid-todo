@@ -11,9 +11,12 @@
   <!-- login template -->
   <template id="login-form">
     <form class="login-form">
-      <input type="text" name="username">
-      <input type="password" name="password">
-      <button>로그인</button>
+      <fieldset>
+        <legend>로그인 폼 </legend>
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <button>로그인</button>
+      </fieldset>
     </form>
   </template>
 
@@ -22,7 +25,7 @@
     <h1>할 일 목록</h1>
     <form class="todo-form">
       <input type="text" name="body" placeholder="할 일을 입력하세용">
-      <button>전송</button>
+      <button>추가</button>
     </form>
     <ul class="todo-list">
 
@@ -33,6 +36,7 @@
   <template id="todo-item">
     <li class="todo-item">
       <span class="body"></span>
+      <button class="delete-button">삭제</button>
     </li>
   </template>
   <!-- template을 넣고 싶은 div에 root하는 className을 붙이는 것이 관례 -->

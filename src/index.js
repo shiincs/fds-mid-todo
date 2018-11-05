@@ -68,7 +68,6 @@ async function drawTodoList() {
   // 2. 내용 채우고 이벤트 리스너 등록하기
   const todoListEl = fragment.querySelector('.todo-list')
   const todoFormEl = fragment.querySelector('.todo-form')
-
   // 폼에 할일 입력하고 전송 했을 때의 이벤트 리스너
   todoFormEl.addEventListener('submit', async e => {
     e.preventDefault()
@@ -87,17 +86,31 @@ async function drawTodoList() {
     // 1. 템플릿 복사하기
     const fragment = document.importNode(templates.todoItem, true)
     // 2. 내용 채우고 이벤트 리스너 등록하기
+    // 할일을 등록하는 기능
     const bodyEl = fragment.querySelector('.body')
     bodyEl.textContent = todoItem.body
+
+    // 삭제 버튼 추가하고 이벤트 리스너 등록
+    const deleteButtonEl = fragment.querySelector('.delete-button')
+    deleteButtonEl.addEventListener('click', async e => {
+      e.preventDefault()
+      const res = await api.delete(`/todos/${todoItem.id}`)
+      drawTodoList()
+    })
+
     // 3. 문서 내부에 삽입하기
     todoListEl.appendChild(fragment)
   })
 
   // 3. 문서 내부에 삽입하기
-  // 먼저 비우고 새로 삽입한다.
+  // 로그인 폼을 없애기 위해 먼저 비우고 새로 삽입한다.
   rootEl.textContent = ''
   rootEl.appendChild(fragment)
 }
 
-drawLoginForm()
-// drawTodoList()
+// localStorage에 토큰이 있다면(로그인 된 상태라면) 바로 todoList를 보여주고
+// localStorage에 토큰이 없다면(로그인 상태가 아니라면) loginForm을 보여준다.
+{
+  const token = localStorage.getItem('token')
+  token? drawTodoList() : drawLoginForm()
+}
