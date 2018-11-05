@@ -100,6 +100,8 @@ async function drawTodoList() {
 
     // 체크박스 추가하고 이벤트 리스너 등록
     const doneCheckEl = fragment.querySelector('.done-check')
+
+    // 이벤트 발생에 따라 상태를 변화시킨다.
     doneCheckEl.addEventListener('click', async e => {
       if(e.target.getAttribute('checked') === 'checked') {
         e.target.removeAttribute('checked')
@@ -115,6 +117,11 @@ async function drawTodoList() {
         console.log(res.data)
       }
     })
+
+    // 서버의 상태에 따라 체크박스를 그려준다.
+    if(todoItem.complete === true) {
+      doneCheckEl.setAttribute('checked', 'checked')
+    }
 
     // 3. 문서 내부에 삽입하기
     todoListEl.appendChild(fragment)
