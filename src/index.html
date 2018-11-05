@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./index.scss">
 </head>
 <body>
+  <!-- login template -->
   <template id="login-form">
     <form class="login-form">
       <input type="text" name="username">
@@ -16,6 +17,20 @@
     </form>
   </template>
 
+  <!-- todo-list template -->
+  <template id="todo-list">
+    <h1>할 일 목록</h1>
+    <ul class="todo-list">
+
+    </ul>
+  </template>
+
+  <!-- todo-item template -->
+  <template id="todo-item">
+    <li class="todo-item">
+      <span class="body"></span>
+    </li>
+  </template>
   <!-- template을 넣고 싶은 div에 root하는 className을 붙이는 것이 관례 -->
   <div class="root"></div>
   <script src="./index.js"></script>
