@@ -68,6 +68,18 @@ async function drawTodoList() {
   // 2. 내용 채우고 이벤트 리스너 등록하기
   const todoListEl = fragment.querySelector('.todo-list')
   const todoFormEl = fragment.querySelector('.todo-form')
+  const logoutEl = fragment.querySelector('.logout')
+
+  // 로그아웃 버튼을 눌렀을 때의 이벤트 리스너
+  logoutEl.addEventListener('click', e => {
+    // 로그아웃 절차
+    // 1. 토큰 삭제
+    localStorage.removeItem('token')
+    // 2. rootEl을 비우고 로그인 폼 보여주기
+    rootEl.textContent = ''
+    drawLoginForm()
+  })
+
   // 폼에 할일 입력하고 전송 했을 때의 이벤트 리스너
   todoFormEl.addEventListener('submit', async e => {
     e.preventDefault()
@@ -99,28 +111,37 @@ async function drawTodoList() {
     })
 
     // 체크박스 추가하고 이벤트 리스너 등록
-    const doneCheckEl = fragment.querySelector('.done-check')
+    const completeCheckEl = fragment.querySelector('.complete-check')
+
+    todoItem.complete? completeCheckEl.setAttribute('checked', '') : completeCheckEl.removeAttribute('checked')
 
     // 이벤트 발생에 따라 상태를 변화시킨다.
-    doneCheckEl.addEventListener('click', async e => {
-      if(e.target.getAttribute('checked') === 'checked') {
-        e.target.removeAttribute('checked')
-        const res = await api.patch(`/todos/${todoItem.id}`, {
-          complete: false
-        })
-        console.log(res.data)
-      } else {
-        e.target.setAttribute('checked', 'checked')
-        const res = await api.patch(`/todos/${todoItem.id}`, {
-          complete: true
-        })
-        console.log(res.data)
-      }
+    completeCheckEl.addEventListener('click', async e => {
+      e.preventDefault()
+      const res = await api.patch(`/todos/${todoItem.id}`, {
+        // 원래 true 였으면 false로, 원래 false 였으면 true로
+        complete: !todoItem.complete
+      })
+      drawTodoList()
+      console.log(res.data)
+      // if(e.target.getAttribute('checked') === 'checked') {
+      //   e.target.removeAttribute('checked')
+      //   const res = await api.patch(`/todos/${todoItem.id}`, {
+      //     complete: false
+      //   })
+      //   console.log(res.data)
+      // } else {
+      //   e.target.setAttribute('checked', 'checked')
+      //   const res = await api.patch(`/todos/${todoItem.id}`, {
+      //     complete: true
+      //   })
+      //   console.log(res.data)
+      // }
     })
 
     // 서버의 상태에 따라 체크박스를 그려준다.
     if(todoItem.complete === true) {
-      doneCheckEl.setAttribute('checked', 'checked')
+      completeCheckEl.setAttribute('checked', 'checked')
     }
 
     // 3. 문서 내부에 삽입하기

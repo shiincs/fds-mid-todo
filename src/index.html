@@ -23,6 +23,7 @@
   <!-- todo-list template -->
   <template id="todo-list">
     <h1>할 일 목록</h1>
+    <button class="logout">로그아웃</button>
     <form class="todo-form">
       <input type="text" name="body" placeholder="할 일을 입력하세용">
       <button>추가</button>
@@ -35,9 +36,9 @@
   <!-- todo-item template -->
   <template id="todo-item">
     <li class="todo-item">
+      <input type="checkbox" class="complete-check">
       <span class="body"></span>
       <button class="delete-button">삭제</button>
-      <input type="checkbox" class="done-check">
     </li>
   </template>
   <!-- template을 넣고 싶은 div에 root하는 className을 붙이는 것이 관례 -->
