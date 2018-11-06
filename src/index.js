@@ -113,6 +113,7 @@ async function drawTodoList() {
     // 체크박스 추가하고 이벤트 리스너 등록
     const completeCheckEl = fragment.querySelector('.complete-check')
 
+    // complete 상태 변화에 따라 화면을 그려준다.
     todoItem.complete? completeCheckEl.setAttribute('checked', '') : completeCheckEl.removeAttribute('checked')
 
     // 이벤트 발생에 따라 상태를 변화시킨다.
